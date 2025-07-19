@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Nick Generator | Free & Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --main-bg: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      --btn-green: #00b894;
+      --btn-blue: #0984e3;
+      --btn-pink: #fd79a8;
+      --btn-gold: gold;
+      --box-bg: #1e272e;
+      --text-light: #dfe6e9;
+      --highlight: #ffeaa7;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--main-bg);
+      color: var(--text-light);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 25px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    h1, h2 {
+      color: var(--highlight);
+      text-shadow: 1px 1px 4px black;
+    }
+
+    input, button {
+      padding: 12px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      outline: none;
+    }
+
+    input {
+      width: 80%;
+    }
+
+    button {
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-green { background: var(--btn-green); color: white; }
+    .btn-blue { background: var(--btn-blue); color: white; }
+    .btn-pink { background: var(--btn-pink); color: white; }
+    .btn-gold { background: var(--btn-gold); color: black; }
+
+    .result, .menu, .pro-tools, .login-section {
+      margin-top: 25px;
+    }
+
+    .result {
+      background: var(--box-bg);
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+
+    .hidden { display: none; }
+
+    .menu button, .pro-tools button {
+      display: block;
+      margin: 12px auto;
+      width: 85%;
+    }
+
+    .pro-tools {
+      background: #2f3542;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid #57606f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Nick Yaratish Dasturi</h1>
+
+    <div class="login-section" id="loginSection">
+      <h2>👤 Akkountga kirish</h2>
+      <input type="text" id="username" placeholder="Ismingiz"> <br>
+      <input type="password" id="password" placeholder="Parol"> <br>
+      <button class="btn-green" onclick="login()">Kirish</button>
+    </div>
+
+    <div class="menu hidden" id="mainMenu">
+      <h2>Xush kelibsiz, <span id="userDisplay"></span>!</h2>
+      <button class="btn-blue" onclick="generateNick('freefire')">Free Fire Nick</button>
+      <button class="btn-blue" onclick="generateNick('youtube')">YouTube Nick</button>
+      <button class="btn-blue" onclick="generateNick('instagram')">Instagram Nick</button>
+      <button onclick="openProSection()" class="btn-gold">🔓 Pro versiyani ochish</button>
+
+      <div id="proMenu" class="hidden">
+        <button class="btn-pink" onclick="generateNick('pubg')">🎮 PUBG (PRO)</button>
+        <button class="btn-pink" onclick="generateNick('telegram')">📱 Telegram Nick (PRO)</button>
+      </div>
+    </div>
+
+    <div class="result" id="result" style="display:none;"></div>
+    <button id="nextNick" class="btn-green hidden" onclick="generateNick(currentType)">🔁 Boshqa Nick</button>
+
+    <div class="pro-tools hidden" id="proTools">
+      <h2>Pro versiyani ochish - 100,000 so'm</h2>
+      <input type="text" id="promoCode" placeholder="Promo kod kiriting"> <br>
+      <button class="btn-gold" onclick="activatePromo()">✅ Kodni tekshirish</button>
+      <p id="promoMsg"></p>
+    </div>
+  </div>
+
+  <script>
+    let isPro = false;
+    let currentUser = "";
+    let currentType = "";
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user && pass) {
+        currentUser = user;
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("mainMenu").classList.remove("hidden");
+        document.getElementById("userDisplay").textContent = user;
+      } else {
+        alert("Iltimos, ismingiz va parolingizni kiriting!");
+      }
+    }
+
+    function openProSection() {
+      document.getElementById("proTools").classList.remove("hidden");
+    }
+
+    function activatePromo() {
+      const code = document.getElementById("promoCode").value;
+      const msg = document.getElementById("promoMsg");
+      if (code === "7777") {
+        isPro = true;
+        msg.innerHTML = "✅ Pro versiya ochildi!";
+        document.getElementById("proMenu").classList.remove("hidden");
+        document.getElementById("proTools").classList.add("hidden");
+      } else {
+        msg.innerHTML = "❌ Noto‘g‘ri promo kod.";
+      }
+    }
+
+    function generateNick(type) {
+      currentType = type;
+      let nick = "";
+      const base = ["Dark", "Crazy", "Fast", "Olovli", "Pro", "Ghost"];
+      const noun = ["Sniper", "Warrior", "King", "Boy", "Master", "Dragon"];
+      const stickers = ["💠", "✅", "⭐", "☑"];
+      const num = Math.floor(Math.random() * 900 + 100);
+
+      if (type === "telegram" && isPro) {
+        nick = `${stickers[Math.floor(Math.random()*stickers.length)]}${base[Math.floor(Math.random()*base.length)]}${stickers[Math.floor(Math.random()*stickers.length)]}${noun[Math.floor(Math.random()*noun.length)]}${num}`;
+      } else if (type === "pubg" && isPro) {
+        nick = `PRO_${base[Math.floor(Math.random()*base.length)]}${noun[Math.floor(Math.random()*noun.length)]}_${num}`;
+      } else if (["freefire", "youtube", "instagram"].includes(type)) {
+        nick = `${base[Math.floor(Math.random()*base.length)]}_${noun[Math.floor(Math.random()*noun.length)]}${num}`;
+      } else {
+        nick = "❌ Bu bo‘lim faqat PRO uchun.";
+      }
+
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").innerHTML = `<strong>${type.toUpperCase()} Nick:</strong> ${nick}`;
+      document.getElementById("nextNick").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
